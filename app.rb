@@ -8,6 +8,7 @@ get '/' do
 end
 
 get '/about' do
+	@error = "Are you danger??"
 	erb :about
 end
 
@@ -21,6 +22,10 @@ post '/visit' do
 	@datetime = params[:datetime]
 	@master = params[:master]
 	@col = params[:col]
+	if @username == ''
+		@error = 'Enter you name'
+		return erb :visit
+	end
 
 	f = File.open("./public/visit.txt", "a")
 	f.write("Name: #{@username}, Phone: #{@phone}, Date: #{@datetime}, Wizard: #{@master}, Color: #{@col}\n")
