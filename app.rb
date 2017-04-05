@@ -29,11 +29,10 @@ post '/visit' do
 		:datetime => 'Введите дату посещения'
 	}
 
-	hh.each do |key, value|
-		if params[key] == ''
-			@error = hh[key]
-			return erb :visit
-		end
+	@error = hh.select{|key| params[key] == ''}.values.join(', ')
+
+	if @error != ''
+		return erb :visit
 	end
 
 	f = File.open("./public/visit.txt", "a")
