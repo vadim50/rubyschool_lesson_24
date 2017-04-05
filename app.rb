@@ -8,7 +8,6 @@ get '/' do
 end
 
 get '/about' do
-	@error = "Are you danger??"
 	erb :about
 end
 
@@ -22,9 +21,19 @@ post '/visit' do
 	@datetime = params[:datetime]
 	@master = params[:master]
 	@col = params[:col]
-	if @username == ''
-		@error = 'Enter you name'
-		return erb :visit
+
+	hh = {
+
+		:username => 'Введите имя',
+		:phone => 'Введите номер телефона',
+		:datetime => 'Введите дату посещения'
+	}
+
+	hh.each do |key, value|
+		if params[key] == ''
+			@error = hh[key]
+			return erb :visit
+		end
 	end
 
 	f = File.open("./public/visit.txt", "a")
